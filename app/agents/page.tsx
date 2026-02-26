@@ -2,23 +2,19 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import AgentCard from "@/components/ui/AgentCard";
-import AgentDetail from "@/components/ui/AgentDetail";
 
 const DUMMY_AGENTS = [
-    { name: "COSMO", ticker: "$COSMO", image: "/agents/cosmo.png" },
-    { name: "TRUMP", ticker: "$TRUMP", image: "/agents/trump.png" },
-    { name: "Retard", ticker: "$RETAR", image: "/agents/monkey.png" },
-    { name: "Santa", ticker: "$SANTA", image: "/agents/santa.png" }, // Placeholder if image missing
-    { name: "BMW M3", ticker: "$BM3", image: "/agents/car.png" }, // Placeholder if image missing
+    { id: "COSMO", name: "COSMO", ticker: "$COSMO", image: "/agents/cosmo.png" },
+    { id: "TRUMP", name: "TRUMP", ticker: "$TRUMP", image: "/agents/trump.png" },
+    { id: "RETAR", name: "Retard", ticker: "$RETAR", image: "/agents/monkey.png" },
+    { id: "SANTA", name: "Santa", ticker: "$SANTA", image: "/agents/santa.png" },
+    { id: "BM3", name: "BMW M3", ticker: "$BM3", image: "/agents/car.png" },
 ];
 
 export default function AgentsPage() {
-    const [selectedAgent, setSelectedAgent] = useState<typeof DUMMY_AGENTS[0] | null>(null);
-
-    if (selectedAgent) {
-        return <AgentDetail agent={selectedAgent} onBack={() => setSelectedAgent(null)} />;
-    }
+    const router = useRouter();
 
     return (
         <div className="p-8">
@@ -46,7 +42,7 @@ export default function AgentsPage() {
                     <AgentCard
                         key={agent.name}
                         {...agent}
-                        onClick={() => setSelectedAgent(agent)}
+                        onClick={() => router.push(`/agents/${agent.id}`)}
                     />
                 ))}
             </div>
